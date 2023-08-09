@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class character1 : MonoBehaviour
+public class MemTmi : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class character1 : MonoBehaviour
         
     }
 
-    public void tmi1()
+    public void MemTmi1()
     {
         SceneManager.LoadScene("TmiScene1");
     }
