@@ -759,16 +759,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '1998.00.00
-
-
-    INFJ
-
-
-    ??
-
-
-    ??'
+  m_Text: "1998.04.25\n\nINFJ\n\n\uAC8C\uC784\n\n\t\uC5F4\uC2EC\uD788 \uD558\uACA0\uC2B5\uB2C8\uB2E4."
 --- !u!222 &924074665
 CanvasRenderer:
   m_ObjectHideFlags: 0
