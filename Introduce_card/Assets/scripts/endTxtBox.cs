@@ -9,6 +9,7 @@ public class endTxt : MonoBehaviour
     public void retryGame()
     {
         SceneManager.LoadScene("MainScene");
+        AudioListener.pause = false;
     }
 
     // Start is called before the first frame update

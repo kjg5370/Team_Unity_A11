@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public class gameManager : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class gameManager : MonoBehaviour
     public AudioClip match;
     public AudioSource audioSource;
     public GameObject endPanel;
+
+    public GameObject fail;
+    public GameObject MainTxt;
+    public GameObject menuSet;
+    private Sprite[] sprites;
 
     public Text maxScoreTxt;
     public Text remainTimeTxt;
@@ -37,9 +43,11 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int[] cardImg = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
+        //int[] cardImg = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
 
-        cardImg = cardImg.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
+        //cardImg = cardImg.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
+        sprites = Resources.LoadAll<Sprite>("file");
+        sprites = sprites.OrderBy(spirtes => Random.Range(-1.0f, 1.0f)).ToArray();
 
         animator = timeTxt.GetComponent<Animator>();
 
@@ -53,8 +61,8 @@ public class gameManager : MonoBehaviour
             float y = (i % 4) * 1.4f -3.0f;
             newCard.transform.position = new Vector3(x, y, 0);
 
-            string imgName = "img" + cardImg[i].ToString();
-            newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(imgName);
+            //string imgName = "img" + cardImg[i].ToString();
+            newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = sprites[i];
         }
 
         Time.timeScale = 1.0f;
@@ -67,6 +75,7 @@ public class gameManager : MonoBehaviour
     {
         time -= Time.deltaTime;
         timeTxt.text = time.ToString("N2");
+
         if (time <= 0.0f)
         {
             time = 0;
@@ -76,19 +85,34 @@ public class gameManager : MonoBehaviour
         {
             audioManager.i.audioSource.pitch = 1.1f;
         }
+
+        if (Input.GetButtonDown("Cancel"))
+        {
+
+            menuSet.SetActive(true);
+            Time.timeScale = 0f;
+            AudioListener.pause = true;
+
+        }
+
         matchCount.text = count.ToString();
+
     }
 
     public void isMatched()
     {
-        string firstCardImage = firstCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite.name;
-        string secondCardImage = secondCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite.name;
+        string firstCardImage = firstCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite.name.TrimEnd(' ', '1');
+        string secondCardImage = secondCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite.name.TrimEnd(' ', '1');
+
+        MainTxt.GetComponent<Text>().text = Regex.Replace(firstCardImage, @"[\d\s]", "");
 
         if (firstCardImage == secondCardImage)
         {
             audioSource.PlayOneShot(match);
             firstCard.GetComponent<card>().destroyCard();
             secondCard.GetComponent<card>().destroyCard();
+            MainTxt.SetActive(true);
+            Invoke("closeTxt", 1f);
 
             checkMatched += 1;
 
@@ -96,6 +120,8 @@ public class gameManager : MonoBehaviour
             if (cardsLeft == 2)
             {
                 GameEnd();
+                
+
             }
         }
         else
@@ -104,6 +130,9 @@ public class gameManager : MonoBehaviour
             animator.SetTrigger("isMinus");
             firstCard.GetComponent<card>().closeCard();
             secondCard.GetComponent<card>().closeCard();
+            fail.SetActive(true);
+            Invoke("closefail", 1f);
+            
         }
 
         firstCard = null;
@@ -119,6 +148,21 @@ public class gameManager : MonoBehaviour
         maxScoreTxt.text = maxScore.ToString("N2");
         endPanel.SetActive(true);
         Time.timeScale = 0.0f;
+    }
+    public void closefail()
+    {
+        fail.SetActive(false);
+    }
+    public void closeTxt()
+    {
+        MainTxt.SetActive(false);
+    }
+    public void restart()
+    {
+        menuSet.SetActive(false);
+        Time.timeScale = 1;
+        AudioListener.pause = false;
+
     }
 
 

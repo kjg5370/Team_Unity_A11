@@ -23,6 +23,7 @@ public class startBtn : MonoBehaviour
     public void startGame()
     {
         SceneManager.LoadScene("MainScene");
-        
+        AudioListener.pause = false;
+
     }
 }
