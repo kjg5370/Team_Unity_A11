@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 95eeb5c55f5564f94b038bc6ed9d3467
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - anim: {fileID: -306212159792744164, guid: 5a3e7b080250a4659bce900607715f60, type: 3}
+  - flip: {fileID: 8300000, guid: c85edec5e715047549976030bdde76ac, type: 3}
+  - audioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
