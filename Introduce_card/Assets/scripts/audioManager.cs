@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class audioManager : MonoBehaviour
 {
+    public static audioManager i;
 
     public AudioClip bgmusic;
     public AudioSource audioSource;
 
-
+    private void Awake()
+    {
+        i = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
